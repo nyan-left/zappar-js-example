@@ -14,17 +14,15 @@ const source = new Zappar.CameraSource(
   Zappar.cameraDefaultDeviceID()
 );
 
-let started = false;
 
 Zappar.permissionRequestUI().then((granted) => {
-  if (granted) started = true;
+  if (granted) source.start();
   else Zappar.permissionDeniedUI();
 });
 
 const animate = () => {
   requestAnimationFrame(animate);
 
-  if(!started) return;
   pipeline.processGL();
 
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -36,5 +34,4 @@ const animate = () => {
   pipeline.cameraFrameDrawGL(w, h); // <--- no effect
 };
 
-source.start();
 animate();
